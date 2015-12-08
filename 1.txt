@@ -1,2 +1,7 @@
 这是1.txt文件内容
 这是添加的第二行内容
+<!doctype html>
+<html>
+<head>
+</head>
+</html>
