@@ -3,9 +3,9 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-<title>�ӱ���</title>
+<title>设置了没用</title>
 </head>
 <body>
-修改内容，在本地进行同步更新.
+怎么是乱码了？
 </body>
 </html>
