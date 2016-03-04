@@ -1,10 +1,301 @@
 <!doctype html>
 <html>
+
 <head>
-    <meta charset="utf-8"/>
-    <title>index.html</title>
+    <meta charset="utf-8" />
+    <title>移动端触摸事件</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        ul,li{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .other{
+            width: 100%;
+            height: auto;
+            overflow: auto;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: #fff;
+            text-align: center;
+            bottom: 40px;
+            -webkit-overflow-scrolling: touch;
+        }
+        footer{
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            background-color: #ddd;
+            left: 0;
+            bottom: 0;
+            border-top: 1px solid #ccc;
+            z-index: 1500;
+        }
+        footer nav,footer nav ul{
+            width: 100%;
+            height: 100%;
+        }
+        footer nav ul li{
+            height: 100%;
+            width: 25%;
+            float: left;
+            overflow: hidden;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        footer nav ul li a{
+            width: auto;
+            height: 100%;
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            line-height: 40px;
+            color: #333;
+            border-right: 1px solid #ccc;
+            font-size: 13px;
+        }
+        #wrap{
+            position: absolute;
+            width: 80%; 
+            height: 100%;
+            left: -80%;
+            top: 0;
+            background-color: #fff; 
+            overflow: hidden; 
+            z-index: 2000; 
+            -webkit-transition: left 0.3s ease-in-out;
+            transition: left 0.3s ease-in-out;
+            border-right: 1px solid #ddd;
+        }
+        #wrap ul{
+            width: 100%;
+            height: auto;
+            -webkit-transform: translate(0px, 0px);
+            transform: translate(0, 0px);
+        }
+        #wrap ul li{
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            border-bottom: 1px solid #999;
+            margin: 2px 0;
+            text-indent: 5px;
+            font-size: 13px;
+            color: #666;
+        }
+        .shadow{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 500;
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
-    这是body内容。
-</body>
-</html>
+    <div class="other">
+        其他内容
+        <p style="margin: 20px;line-height:25px;">
+            我们先看一个最简单的Promise例子：\n生成一个0-2之间的随机数，
+            如果小于1，则等待一段时间后返回成功，否则返回失败：
+            以上代码列出了typeof输出的集中类型标识，其中上面的四种（undefined, number, string, boolean）属于简单的值类型，不是对象。剩下的几种情况——函数、数组、对象、null、new Number(10)都是对象。他们都是引用类型。
+
+判断一个变量是不是对象非常简单。值类型的类型判断用typeof，引用类型的类型判断用instanceof。好了，上面说了半天对象，各位可能也经常在工作中应对对象，在生活中还得应对活生生的对象。有些个心理不正常或者爱开玩笑的单身人士，还对于系统提示的“找不到对象”耿耿于怀。那么在javascript中的对象，到底该如何定义呢？
+
+对象——若干属性的集合。
+
+java或者C#中的对象都是new一个class出来的，而且里面有字段、属性、方法，规定的非常严格。但是javascript就比较随意了——数组是对象，函数是对象，对象还是对象。对象里面的一切都是属性，只有属性，没有方法。那么这样方法如何表示呢？——方法也是一种属性。因为它的属性表示为键值对的形式。
+
+而且，更加好玩的事，javascript中的对象可以任意的扩展属性，没有class的约束。这个大家应该都知道，就不再强调了。</p>
+
+先说个最常见的例子：
+        
+    </div>
+    <div id="wrap">
+        <ul id="list">
+            <li><a href="http://www.baidu.com">全部商品</a></li>
+            <li>商品分类</li>
+            <li>男士鞋服</li>
+            <li>商品分类</li>
+            <li>男士鞋服</li>
+            <li>商品分类</li>
+        </ul>
+    </div>
+    <div class="shadow"></div> 
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="javascript:;">首页</a></li>
+                <li><a href="javascript:;" class="classify">分类</a></li>
+                <li><a href="javascript:;">购物车</a></li>
+                <li><a href="javascript:;">个人中心</a></li>
+            </ul>
+        </nav>
+    </footer>
+    <script>
+        window.onload = function () { 
+            var obj = document.getElementById("list"), 
+            	other = document.getElementsByClassName("other")[0],
+            	oClassify = document.getElementsByClassName("classify")[0],
+            	oShadow = document.getElementsByClassName("shadow")[0];
+           	//点击分类 弹出层 
+            oClassify.addEventListener("click",function(e){
+            	//保存父级元素的初始位置 
+            	scroll.maxBottomHeight = (obj.offsetHeight - obj.parentNode.offsetHeight ) > 0 ? obj.offsetHeight - obj.parentNode.offsetHeight : 0; 
+            	scroll.parentOffsetLeft = obj.parentNode.offsetLeft; 
+                oShadow.style.display = "block";
+                obj.parentNode.style.left = 0; 
+            },false);   
+            //遮罩层 点击 收起弹出层 
+            oShadow.addEventListener("click",function(e){ 
+                this.style.display = "none";    
+                obj.parentNode.style.left = scroll.parentOffsetLeft+"px";    
+                setTimeout(function(){
+                    obj.style.webkitTransform = "translate(0px,0px)";
+                    obj.style.transform = "translate(0px,0px)";
+                },100);
+            },false);         
+             //阻止遮罩层 事件冒泡 
+            oShadow.addEventListener("touchmove",function(e){
+                e.preventDefault(); 
+                e.stopPropagation();
+            },false); 
+            //阻止弹出层父层 事件冒泡 
+            obj.parentNode.addEventListener("touchmove",function(e){
+            	 e.preventDefault(); 
+                 e.stopPropagation();  
+            },false);            
+            //触摸开始事件   
+            obj.addEventListener("touchstart",function(e){
+                scroll.touchstart(this,e);   
+            },false);
+            //触摸滑动事件 
+            obj.addEventListener("touchmove",function(e){
+                scroll.touchmove(this,e);
+            },false); 
+            //触摸结束事件 
+            obj.addEventListener("touchend",function(e){ 
+                scroll.touchend(this, e);
+            },false);   
+        }; 
+        //对象滑动事件处理 
+        var scroll = {
+            startPositionY: 0,
+            endPositionY: 0,
+            startTime: 0,
+            distanceY: 0,
+            //底部可下滑的距离
+            maxBottomHeight: 0,
+            parentOffsetLeft:0,
+            touchstart: function(obj,e){
+            	var event = e.touches[0];
+                //开始点y坐标  
+                this.startPositionY = event.clientY; 
+                this.endPositionY = event.clientY; 
+                //存储起始时间
+                this.startTime = new Date().getTime();
+                //清空动画
+                obj.style.webkitTransition = "none";  
+                obj.style.transition = "none"; 
+            },
+            touchmove: function(obj,e){
+            	var even = e.touches[0],
+            		nowX = even.clientX,	//结束点y坐标 nowX nowY
+            		nowY = even.clientY,
+            		maxHeight = 0,			//顶部下滑最大距离 maxHeight 默认为0
+            		str = "",
+            		distance,
+            		lastPosition,
+            		clientHeight = document.documentElement.clientHeight||document.body.clientHeight;  
+            
+	            if(nowY < 0){
+	            	nowY = 0;
+	            }else if(nowY > clientHeight){
+	            	nowY = clientHeight;
+	            }
+	            this.endPositionY = nowY;
+	
+	            //获取已经滑动的距离
+	            if(obj.getAttribute("style")){
+	                str = obj.getAttribute("style");
+	                maxHeight = parseInt(str.substring(str.indexOf(",") + 1,str.indexOf(")") - 2) || 0);
+	            } 
+	            
+	            //移动的距离 
+	            distance = this.endPositionY - this.startPositionY;  
+					lastPosition = distance + maxHeight;
+					//保存 移动的距离
+					this.distanceY = distance;
+					
+	            if( (maxHeight > 50 && distance > 0) || (maxHeight < -this.maxBottomHeight - 50 && distance < 0) ){
+	            	
+	            }else{ 
+	            	//手指持续滑动： 下一次滑动的起始位置 为上一次的结束位置 
+	                this.startPositionY = this.endPositionY;  
+					obj.style.webkitTransform = "translate(0," + lastPosition + "px)";
+	                obj.style.transform = "translate(0," + lastPosition + "px)";
+	                obj.style.webkitTransition = " ";   
+	                obj.style.transition = " ";
+	            }
+            },
+            touchend: function(obj,e){
+            	//耗时 
+                var interval = new Date().getTime() - this.startTime,
+                	maxHeight = 0,
+                	str,
+                	autoScroll;
+                //获取已经滑动的距离
+                if(obj.getAttribute("style")){
+                    str = obj.getAttribute("style");
+                    maxHeight = parseInt(str.substring(str.indexOf(",")+1,str.indexOf(")")-2)||0);
+                } 
+                /* console.log("刚才移动的距离： " + this.distanceY+"间隔时间：" +interval+"ms"); */
+               
+                if(interval >= 250){					//时间间隔足够长 
+                	 //向下滑动距离大于50  则还原回到顶部
+	                if(maxHeight > 50){ 
+	                	obj.style.webkitTransform = "translate(0px,0px)";
+	                    obj.style.transform = "translate(0px,0px)";     
+	                    obj.style.webkitTransition = "all 500ms cubic-bezier(0.1, 0.57, 0.1, 1)";   
+	                    obj.style.transition = "all 500ms cubic-bezier(0.1, 0.57, 0.1, 1)";      
+	                }else if(maxHeight < -this.maxBottomHeight - 50 ){
+	                	//底部露出距离 小于 最大值   则停留在底部 
+	                	obj.style.webkitTransform = "translate(0px,-" + this.maxBottomHeight + "px)";
+	                    obj.style.transform = "translate(0px,-" + this.maxBottomHeight + "px)";  
+	                    obj.style.webkitTransition = "all 500ms cubic-bezier(0.1, 0.57, 0.1, 1)";   
+	                    obj.style.transition = "all 500ms cubic-bezier(0.1, 0.57, 0.1, 1)"; 
+	                }
+                }else if(interval < 250){	//时间间隔短 则作 自由滑动 
+                	if(this.distanceY < 0){		//向上滑  
+                		autoScroll = maxHeight - interval; 
+                	}else{	
+                		autoScroll = maxHeight + interval; 
+                	} 
+                	if(autoScroll > 0){ 
+            			autoScroll = 0; 
+            		}else if(autoScroll < -this.maxBottomHeight){ 
+            			autoScroll = -this.maxBottomHeight; 
+            		}
+                	obj.style.webkitTransform = "translate(0px," + autoScroll + "px)";    
+                    obj.style.transform = "translate(0px," + autoScroll + "px)"; 
+                    obj.style.webkitTransition = "all 700ms cubic-bezier(0.1, 0.57, 0.1, 1)";   
+                    obj.style.transition = "all 700ms cubic-bezier(0.1, 0.57, 0.1, 1)";   
+                }
+            }
+        };
+    </script>
+</body> 
